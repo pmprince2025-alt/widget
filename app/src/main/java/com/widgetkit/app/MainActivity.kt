@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             WidgetKitTheme {
-                WidgetKitApp()
+                MainScreen()
             }
         }
     }
@@ -55,7 +55,7 @@ sealed class BottomNavItem(val route: String, val label: String, val icon: Image
 val bottomNavItems = listOf(BottomNavItem.Gallery, BottomNavItem.MyWidgets)
 
 @androidx.compose.runtime.Composable
-fun WidgetKitApp() {
+fun MainScreen() {
     val navController = rememberNavController()
 
     Scaffold(
