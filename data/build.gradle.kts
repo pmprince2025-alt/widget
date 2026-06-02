@@ -23,11 +23,9 @@ android {
 protobuf {
     protoc { artifact = "com.google.protobuf:protoc:${libs.versions.protobuf.get()}" }
     generateProtoTasks {
-        all().configureEach { task ->
+        all().forEach { task ->
             task.builtins {
-                register("java") {
-                    option("lite")
-                }
+                id("java") { option("lite") }
             }
         }
     }
