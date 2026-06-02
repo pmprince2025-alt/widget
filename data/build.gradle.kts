@@ -25,7 +25,9 @@ protobuf {
     generateProtoTasks {
         all().forEach { task ->
             task.builtins {
-                id("java") { option("lite") }
+                register("java") {
+                    option("lite")
+                }
             }
         }
     }
