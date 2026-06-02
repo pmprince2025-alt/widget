@@ -5,12 +5,17 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import androidx.glance.appwidget.updateAll
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ClockTickReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        ClockGlanceWidget().updateAll(context)
+        CoroutineScope(Dispatchers.IO).launch {
+            GlanceAppWidgetManager(context).updateAll(ClockGlanceWidget::class.java)
+        }
     }
 
     companion object {
