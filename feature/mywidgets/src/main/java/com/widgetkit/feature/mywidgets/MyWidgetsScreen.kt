@@ -126,7 +126,7 @@ private fun WidgetInstanceRow(
                 )
             }
         },
-        foregroundContent = {
+        content = {
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = MaterialTheme.shapes.medium,
