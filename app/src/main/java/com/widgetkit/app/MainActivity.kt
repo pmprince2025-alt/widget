@@ -14,9 +14,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Dashboard
 import androidx.compose.material.icons.outlined.Widgets
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import com.widgetkit.app.update.UpdateDialog
+import com.widgetkit.app.update.UpdateInfo
+import com.widgetkit.app.update.UpdateManager
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -54,9 +63,27 @@ sealed class BottomNavItem(val route: String, val label: String, val icon: Image
 
 val bottomNavItems = listOf(BottomNavItem.Gallery, BottomNavItem.MyWidgets)
 
-@androidx.compose.runtime.Composable
+@Composable
 fun MainScreen() {
     val navController = rememberNavController()
+    var updateInfo by remember { mutableStateOf<UpdateInfo?>(null) }
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        val mgr = UpdateManager(context)
+        updateInfo = mgr.checkForUpdate()
+    }
+
+    updateInfo?.let { info ->
+        UpdateDialog(
+            updateInfo = info,
+            onDownload = {
+                UpdateManager(context).downloadAndInstall(info)
+                updateInfo = null
+            },
+            onDismiss = { updateInfo = null }
+        )
+    }
 
     Scaffold(
         bottomBar = {
