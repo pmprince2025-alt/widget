@@ -2,42 +2,62 @@ package com.widgetkit.data.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.createDataStore
+import androidx.datastore.core.DataStoreFactory
+import androidx.datastore.dataStoreFile
+import com.widgetkit.data.mapper.WidgetMapper.toDomainWidget
+import com.widgetkit.data.mapper.WidgetMapper.toProtoWidget
 import com.widgetkit.data.proto.WidgetConfigProto
 import com.widgetkit.domain.model.WidgetConfig
-import com.widgetkit.data.mapper.toDomain
-import com.widgetkit.data.mapper.toProto
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.io.InputStream
+import java.io.OutputStream
 import javax.inject.Inject
 import javax.inject.Singleton
+
+private object WidgetConfigSerializer : androidx.datastore.core.Serializer<WidgetConfigProto> {
+    override val defaultValue: WidgetConfigProto = WidgetConfigProto.getDefaultInstance()
+
+    override suspend fun readFrom(input: InputStream): WidgetConfigProto {
+        try {
+            return WidgetConfigProto.parseFrom(input)
+        } catch (e: Exception) {
+            return WidgetConfigProto.getDefaultInstance()
+        }
+    }
+
+    override suspend fun writeTo(t: WidgetConfigProto, output: OutputStream) {
+        t.writeTo(output)
+    }
+}
 
 @Singleton
 class WidgetDataStore @Inject constructor(
     @ApplicationContext context: Context
 ) {
-    private val dataStore: DataStore<WidgetConfigProto> = context.createDataStore(
-        fileName = "widget_config.pb"
+    private val dataStore: DataStore<WidgetConfigProto> = DataStoreFactory.create(
+        serializer = WidgetConfigSerializer,
+        produceFile = { context.dataStoreFile("widget_config.pb") }
     )
 
     val widgets: Flow<List<WidgetConfig>> = dataStore.data.map { proto ->
         if (proto.widgetId.isNotEmpty()) {
-            listOf(proto.toDomain())
+            listOf(proto.toDomainWidget())
         } else {
             emptyList()
         }
     }
 
     suspend fun getWidget(id: String): WidgetConfig? {
-        val proto = dataStore.data.map { it }.let { flow ->
-            flow.value.takeIf { it.widgetId == id }
-        }
-        return proto?.toDomain()
+        return dataStore.data.map { proto ->
+            if (proto.widgetId == id) proto.toDomainWidget() else null
+        }.first()
     }
 
     suspend fun saveWidget(config: WidgetConfig) {
-        dataStore.updateData { config.toProto() }
+        dataStore.updateData { config.toProtoWidget() }
     }
 
     suspend fun deleteWidget(id: String) {

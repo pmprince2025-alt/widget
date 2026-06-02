@@ -13,84 +13,87 @@ import com.widgetkit.domain.model.NoteFontSize
 import com.widgetkit.domain.model.WidgetConfig
 import com.widgetkit.domain.model.WidgetType
 
-fun WidgetConfig.toProto(): WidgetConfigProto {
-    return WidgetConfigProto.newBuilder()
-        .setWidgetId(widgetId)
-        .setWidgetType(widgetType.toProto())
-        .setCreatedAt(createdAt)
-        .apply {
-            clockConfig?.let { setClockConfig(it.toProto()) }
-            noteConfig?.let { setNoteConfig(it.toProto()) }
-            countdownConfig?.let { setCountdownConfig(it.toProto()) }
-        }
-        .build()
-}
+object WidgetMapper {
 
-fun WidgetConfigProto.toDomain(): WidgetConfig {
-    return WidgetConfig(
-        widgetId = widgetId,
-        widgetType = widgetType.toDomain(),
-        createdAt = createdAt,
-        clockConfig = if (hasClockConfig()) clockConfig.toDomain() else null,
-        noteConfig = if (hasNoteConfig()) noteConfig.toDomain() else null,
-        countdownConfig = if (hasCountdownConfig()) countdownConfig.toDomain() else null
+    fun WidgetConfig.toProtoWidget(): WidgetConfigProto {
+        return WidgetConfigProto.newBuilder()
+            .setWidgetId(widgetId)
+            .setWidgetType(widgetType.toProtoType())
+            .setCreatedAt(createdAt)
+            .apply {
+                clockConfig?.let { setClockConfig(it.toProtoClock()) }
+                noteConfig?.let { setNoteConfig(it.toProtoNote()) }
+                countdownConfig?.let { setCountdownConfig(it.toProtoCountdown()) }
+            }
+            .build()
+    }
+
+    fun WidgetConfigProto.toDomainWidget(): WidgetConfig {
+        return WidgetConfig(
+            widgetId = widgetId,
+            widgetType = widgetType.toDomainType(),
+            createdAt = createdAt,
+            clockConfig = if (hasClockConfig()) clockConfig.toDomainClock() else null,
+            noteConfig = if (hasNoteConfig()) noteConfig.toDomainNote() else null,
+            countdownConfig = if (hasCountdownConfig()) countdownConfig.toDomainCountdown() else null
+        )
+    }
+
+    private fun WidgetType.toProtoType(): WidgetTypeProto = when (this) {
+        WidgetType.CLOCK -> WidgetTypeProto.CLOCK
+        WidgetType.NOTE -> WidgetTypeProto.NOTE
+        WidgetType.COUNTDOWN -> WidgetTypeProto.COUNTDOWN
+    }
+
+    private fun WidgetTypeProto.toDomainType(): WidgetType = when (this) {
+        WidgetTypeProto.CLOCK -> WidgetType.CLOCK
+        WidgetTypeProto.NOTE -> WidgetType.NOTE
+        WidgetTypeProto.COUNTDOWN -> WidgetType.COUNTDOWN
+        WidgetTypeProto.UNRECOGNIZED -> WidgetType.CLOCK
+    }
+
+    private fun ClockConfig.toProtoClock(): ClockConfigProto = ClockConfigProto.newBuilder()
+        .setUse12Hour(use12Hour)
+        .setShowSeconds(showSeconds)
+        .setShowDate(showDate)
+        .build()
+
+    private fun ClockConfigProto.toDomainClock(): ClockConfig = ClockConfig(
+        use12Hour = use12Hour,
+        showSeconds = showSeconds,
+        showDate = showDate
+    )
+
+    private fun NoteConfig.toProtoNote(): NoteConfigProto = NoteConfigProto.newBuilder()
+        .setContent(content)
+        .setFontSize(fontSize.toProtoFontSize())
+        .build()
+
+    private fun NoteConfigProto.toDomainNote(): NoteConfig = NoteConfig(
+        content = content,
+        fontSize = fontSize.toDomainFontSize()
+    )
+
+    private fun NoteFontSize.toProtoFontSize(): NoteFontSizeProto = when (this) {
+        NoteFontSize.SMALL -> NoteFontSizeProto.SMALL
+        NoteFontSize.MEDIUM -> NoteFontSizeProto.MEDIUM
+        NoteFontSize.LARGE -> NoteFontSizeProto.LARGE
+    }
+
+    private fun NoteFontSizeProto.toDomainFontSize(): NoteFontSize = when (this) {
+        NoteFontSizeProto.SMALL -> NoteFontSize.SMALL
+        NoteFontSizeProto.MEDIUM -> NoteFontSize.MEDIUM
+        NoteFontSizeProto.LARGE -> NoteFontSize.LARGE
+        NoteFontSizeProto.UNRECOGNIZED -> NoteFontSize.MEDIUM
+    }
+
+    private fun CountdownConfig.toProtoCountdown(): CountdownConfigProto = CountdownConfigProto.newBuilder()
+        .setTargetEpochMs(targetEpochMs)
+        .setLabel(label)
+        .build()
+
+    private fun CountdownConfigProto.toDomainCountdown(): CountdownConfig = CountdownConfig(
+        targetEpochMs = targetEpochMs,
+        label = label
     )
 }
-
-fun WidgetType.toProto(): WidgetTypeProto = when (this) {
-    WidgetType.CLOCK -> WidgetTypeProto.CLOCK
-    WidgetType.NOTE -> WidgetTypeProto.NOTE
-    WidgetType.COUNTDOWN -> WidgetTypeProto.COUNTDOWN
-}
-
-fun WidgetTypeProto.toDomain(): WidgetType = when (this) {
-    WidgetTypeProto.CLOCK -> WidgetType.CLOCK
-    WidgetTypeProto.NOTE -> WidgetType.NOTE
-    WidgetTypeProto.COUNTDOWN -> WidgetType.COUNTDOWN
-    WidgetTypeProto.UNRECOGNIZED -> WidgetType.CLOCK
-}
-
-fun ClockConfig.toProto(): ClockConfigProto = ClockConfigProto.newBuilder()
-    .setUse12Hour(use12Hour)
-    .setShowSeconds(showSeconds)
-    .setShowDate(showDate)
-    .build()
-
-fun ClockConfigProto.toDomain(): ClockConfig = ClockConfig(
-    use12Hour = use12Hour,
-    showSeconds = showSeconds,
-    showDate = showDate
-)
-
-fun NoteConfig.toProto(): NoteConfigProto = NoteConfigProto.newBuilder()
-    .setContent(content)
-    .setFontSize(fontSize.toProto())
-    .build()
-
-fun NoteConfigProto.toDomain(): NoteConfig = NoteConfig(
-    content = content,
-    fontSize = fontSize.toDomain()
-)
-
-fun NoteFontSize.toProto(): NoteFontSizeProto = when (this) {
-    NoteFontSize.SMALL -> NoteFontSizeProto.SMALL
-    NoteFontSize.MEDIUM -> NoteFontSizeProto.MEDIUM
-    NoteFontSize.LARGE -> NoteFontSizeProto.LARGE
-}
-
-fun NoteFontSizeProto.toDomain(): NoteFontSize = when (this) {
-    NoteFontSizeProto.SMALL -> NoteFontSize.SMALL
-    NoteFontSizeProto.MEDIUM -> NoteFontSize.MEDIUM
-    NoteFontSizeProto.LARGE -> NoteFontSize.LARGE
-    NoteFontSizeProto.UNRECOGNIZED -> NoteFontSize.MEDIUM
-}
-
-fun CountdownConfig.toProto(): CountdownConfigProto = CountdownConfigProto.newBuilder()
-    .setTargetEpochMs(targetEpochMs)
-    .setLabel(label)
-    .build()
-
-fun CountdownConfigProto.toDomain(): CountdownConfig = CountdownConfig(
-    targetEpochMs = targetEpochMs,
-    label = label
-)
