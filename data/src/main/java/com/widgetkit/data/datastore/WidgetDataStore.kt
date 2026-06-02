@@ -1,9 +1,8 @@
 package com.widgetkit.data.datastore
 
 import android.content.Context
+import androidx.datastore.createDataStore
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
-import androidx.datastore.dataStoreFile
 import com.widgetkit.data.mapper.WidgetMapper.toDomainWidget
 import com.widgetkit.data.mapper.WidgetMapper.toProtoWidget
 import com.widgetkit.data.proto.WidgetConfigProto
@@ -37,9 +36,9 @@ private object WidgetConfigSerializer : androidx.datastore.core.Serializer<Widge
 class WidgetDataStore @Inject constructor(
     @ApplicationContext context: Context
 ) {
-    private val dataStore: DataStore<WidgetConfigProto> = DataStoreFactory.create(
-        serializer = WidgetConfigSerializer,
-        produceFile = { context.dataStoreFile("widget_config.pb") }
+    private val dataStore: DataStore<WidgetConfigProto> = context.createDataStore(
+        fileName = "widget_config.pb",
+        serializer = WidgetConfigSerializer
     )
 
     val widgets: Flow<List<WidgetConfig>> = dataStore.data.map { proto ->
