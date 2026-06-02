@@ -1,6 +1,7 @@
 package com.widgetkit.widget.note
 
 import android.content.Context
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -35,7 +36,7 @@ class NoteGlanceWidget : GlanceAppWidget() {
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .background(GlanceTheme.colors.primaryContainer)
-                        .padding(12),
+                        .padding(12.dp),
                     verticalAlignment = Alignment.Top,
                     horizontalAlignment = Alignment.Start
                 ) {

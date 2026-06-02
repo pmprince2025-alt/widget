@@ -20,6 +20,7 @@ class ClockTickReceiver : BroadcastReceiver() {
     companion object {
         private const val ACTION_TICK = "com.widgetkit.widget.clock.TICK"
 
+        @Suppress("ShortAlarm")
         fun schedule(context: Context) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(context, ClockTickReceiver::class.java).apply {

@@ -1,6 +1,7 @@
 package com.widgetkit.widget.countdown
 
 import android.content.Context
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -40,7 +41,7 @@ class CountdownGlanceWidget : GlanceAppWidget() {
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .background(GlanceTheme.colors.secondaryContainer)
-                        .padding(8),
+                        .padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
