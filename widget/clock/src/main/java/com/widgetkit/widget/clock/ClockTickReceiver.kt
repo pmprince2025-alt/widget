@@ -2,20 +2,19 @@ package com.widgetkit.widget.clock
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
 import android.content.BroadcastReceiver
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import androidx.glance.appwidget.GlanceAppWidgetManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ClockTickReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        CoroutineScope(Dispatchers.IO).launch {
-            GlanceAppWidgetManager(context).updateAll(ClockGlanceWidget::class.java)
-        }
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val componentName = ComponentName(context, ClockWidgetReceiver::class.java)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(componentName)
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, android.R.id.content)
     }
 
     companion object {

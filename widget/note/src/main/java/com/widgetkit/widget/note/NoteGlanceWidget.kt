@@ -13,9 +13,6 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import androidx.glance.text.TextOverflow
-import androidx.glance.unit.dp
-import androidx.glance.unit.sp
 
 class NoteGlanceWidget : GlanceAppWidget() {
 
@@ -27,25 +24,24 @@ class NoteGlanceWidget : GlanceAppWidget() {
                 val fontSize = prefs.getInt("fontSize", 1)
 
                 val sp = when (fontSize) {
-                    0 -> 14.sp
-                    1 -> 16.sp
-                    2 -> 20.sp
-                    else -> 16.sp
+                    0 -> 14
+                    1 -> 16
+                    2 -> 20
+                    else -> 16
                 }
 
                 Column(
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .background(GlanceTheme.colors.primaryContainer)
-                        .padding(12.dp),
+                        .padding(12),
                     verticalAlignment = Alignment.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
                         text = content,
                         style = TextStyle(fontSize = sp),
-                        maxLines = 5,
-                        overflow = TextOverflow.Ellipsis
+                        maxLines = 5
                     )
                 }
             }

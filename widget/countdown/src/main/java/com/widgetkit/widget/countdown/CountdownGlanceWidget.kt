@@ -14,8 +14,6 @@ import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import androidx.glance.unit.dp
-import androidx.glance.unit.sp
 
 class CountdownGlanceWidget : GlanceAppWidget() {
 
@@ -41,7 +39,7 @@ class CountdownGlanceWidget : GlanceAppWidget() {
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .background(GlanceTheme.colors.secondaryContainer)
-                        .padding(8.dp),
+                        .padding(8),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -49,7 +47,7 @@ class CountdownGlanceWidget : GlanceAppWidget() {
                         Text(
                             text = label,
                             style = TextStyle(
-                                fontSize = 14.sp,
+                                fontSize = 14,
                                 color = GlanceTheme.colors.onSecondaryContainer
                             )
                         )
@@ -57,7 +55,7 @@ class CountdownGlanceWidget : GlanceAppWidget() {
                     Text(
                         text = displayText,
                         style = TextStyle(
-                            fontSize = 22.sp,
+                            fontSize = 22,
                             fontWeight = FontWeight.Bold,
                             color = GlanceTheme.colors.onSecondaryContainer
                         )
