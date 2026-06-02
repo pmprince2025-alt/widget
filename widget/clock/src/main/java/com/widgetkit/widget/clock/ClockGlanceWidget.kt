@@ -10,6 +10,7 @@ import androidx.glance.background
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.padding
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
@@ -42,19 +43,19 @@ class ClockGlanceWidget : GlanceAppWidget() {
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .background(GlanceTheme.colors.surface)
-                        .padding(8f),
+                        .padding(8),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = timeText,
-                        style = TextStyle(fontSize = 28f, fontWeight = FontWeight.Bold)
+                        style = TextStyle(fontSize = 28, fontWeight = FontWeight.Bold)
                     )
                     if (showDate) {
                         Text(
                             text = dateText,
                             style = TextStyle(
-                                fontSize = 14f,
+                                fontSize = 14,
                                 color = GlanceTheme.colors.onSurfaceVariant
                             )
                         )

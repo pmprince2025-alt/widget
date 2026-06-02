@@ -24,17 +24,17 @@ class NoteGlanceWidget : GlanceAppWidget() {
                 val fontSize = prefs.getInt("fontSize", 1)
 
                 val size = when (fontSize) {
-                    0 -> 14f
-                    1 -> 16f
-                    2 -> 20f
-                    else -> 16f
+                    0 -> 14
+                    1 -> 16
+                    2 -> 20
+                    else -> 16
                 }
 
                 Column(
                     modifier = GlanceModifier
                         .fillMaxSize()
                         .background(GlanceTheme.colors.primaryContainer)
-                        .padding(12f),
+                        .padding(12),
                     verticalAlignment = Alignment.Top,
                     horizontalAlignment = Alignment.Start
                 ) {
