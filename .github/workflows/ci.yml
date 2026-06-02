@@ -34,15 +34,19 @@ jobs:
       - name: Setup signing keystore
         run: |
           mkdir -p "$HOME/.android"
+          # Use secret if available, otherwise generate fresh keystore
           if [ -n "${{ secrets.SIGNING_KEYSTORE }}" ]; then
             echo "${{ secrets.SIGNING_KEYSTORE }}" | base64 -d > "$HOME/.android/signing.keystore"
-          else
+          fi
+          # Verify keystore is readable; if not, generate a new one
+          keytool -list -keystore "$HOME/.android/signing.keystore" \
+            -storepass widgetkit22 -alias widgetkit 2>/dev/null || {
             keytool -genkey -v -keystore "$HOME/.android/signing.keystore" \
               -alias widgetkit -keyalg RSA -keysize 2048 -validity 10000 \
               -storepass widgetkit22 -keypass widgetkit22 \
               -dname "CN=WidgetKit,O=WidgetKit,C=US"
             echo "KEYSTORE_BASE64=$(base64 -w0 "$HOME/.android/signing.keystore")" >> "$GITHUB_ENV"
-          fi
+          }
 
       - name: Print keystore base64 (first run only)
         if: env.KEYSTORE_BASE64 != ''
