@@ -38,20 +38,35 @@ jobs:
           if [ -n "${{ secrets.SIGNING_KEYSTORE }}" ]; then
             echo "${{ secrets.SIGNING_KEYSTORE }}" | base64 -d > "$HOME/.android/signing.keystore"
           fi
-          # Verify keystore is readable; if not, generate a new one
+          # Verify keystore is readable; if not, remove and regenerate
           keytool -list -keystore "$HOME/.android/signing.keystore" \
             -storepass widgetkit22 -alias widgetkit 2>/dev/null || {
+            rm -f "$HOME/.android/signing.keystore"
             keytool -genkey -v -keystore "$HOME/.android/signing.keystore" \
               -alias widgetkit -keyalg RSA -keysize 2048 -validity 10000 \
               -storepass widgetkit22 -keypass widgetkit22 \
               -dname "CN=WidgetKit,O=WidgetKit,C=US"
-            echo "KEYSTORE_BASE64=$(base64 -w0 "$HOME/.android/signing.keystore")" >> "$GITHUB_ENV"
+            echo "NEW_KEYSTORE=1" >> "$GITHUB_ENV"
           }
 
-      - name: Print keystore base64 (first run only)
-        if: env.KEYSTORE_BASE64 != ''
+      - name: Save new keystore as artifact
+        if: env.NEW_KEYSTORE == '1'
+        run: |
+          cp "$HOME/.android/signing.keystore" signing.keystore
+          echo "KEYSTORE_BASE64=$(base64 -w0 signing.keystore)" >> "$GITHUB_ENV"
+
+      - name: Upload keystore artifact
+        if: env.NEW_KEYSTORE == '1'
+        uses: actions/upload-artifact@v4
+        with:
+          name: signing-keystore
+          path: signing.keystore
+
+      - name: Print keystore base64
+        if: env.NEW_KEYSTORE == '1'
         run: |
           echo "=== SAVE THIS AS GitHub secret SIGNING_KEYSTORE ==="
+          echo "Use the signing.keystore artifact or save this base64:"
           echo "$KEYSTORE_BASE64"
           echo "=================================================="
 
