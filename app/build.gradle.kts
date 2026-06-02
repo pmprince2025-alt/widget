@@ -25,6 +25,12 @@ android {
             keyAlias = project.findProperty("keyAlias") as? String ?: "androiddebugkey"
             keyPassword = project.findProperty("keyPassword") as? String ?: "android"
         }
+        create("debug") {
+            storeFile = file(project.findProperty("keystorePath") as? String ?: "${System.getProperty("user.home")}/.android/debug.keystore")
+            storePassword = project.findProperty("keystorePassword") as? String ?: "android"
+            keyAlias = project.findProperty("keyAlias") as? String ?: "androiddebugkey"
+            keyPassword = project.findProperty("keyPassword") as? String ?: "android"
+        }
     }
 
     buildTypes {
