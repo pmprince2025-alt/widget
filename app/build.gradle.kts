@@ -25,8 +25,8 @@ android {
             keyAlias = project.findProperty("keyAlias") as? String ?: "androiddebugkey"
             keyPassword = project.findProperty("keyPassword") as? String ?: "android"
         }
+    }
 
-    
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
