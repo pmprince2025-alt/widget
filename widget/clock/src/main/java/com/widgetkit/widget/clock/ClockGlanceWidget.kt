@@ -1,6 +1,7 @@
 package com.widgetkit.widget.clock
 
 import android.content.Context
+import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -49,13 +50,13 @@ class ClockGlanceWidget : GlanceAppWidget() {
                 ) {
                     Text(
                         text = timeText,
-                        style = TextStyle(fontSize = 28, fontWeight = FontWeight.Bold)
+                        style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Bold)
                     )
                     if (showDate) {
                         Text(
                             text = dateText,
                             style = TextStyle(
-                                fontSize = 14,
+                                fontSize = 14.sp,
                                 color = GlanceTheme.colors.onSurfaceVariant
                             )
                         )

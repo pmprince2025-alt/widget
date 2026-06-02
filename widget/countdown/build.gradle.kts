@@ -20,6 +20,8 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
     implementation(libs.glance.appwidget)
     implementation(libs.glance.material3)
     implementation(libs.workmanager)

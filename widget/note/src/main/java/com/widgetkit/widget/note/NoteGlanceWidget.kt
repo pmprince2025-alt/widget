@@ -1,6 +1,7 @@
 package com.widgetkit.widget.note
 
 import android.content.Context
+import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
@@ -24,10 +25,10 @@ class NoteGlanceWidget : GlanceAppWidget() {
                 val fontSize = prefs.getInt("fontSize", 1)
 
                 val size = when (fontSize) {
-                    0 -> 14
-                    1 -> 16
-                    2 -> 20
-                    else -> 16
+                    0 -> 14.sp
+                    1 -> 16.sp
+                    2 -> 20.sp
+                    else -> 16.sp
                 }
 
                 Column(

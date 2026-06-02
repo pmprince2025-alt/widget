@@ -41,7 +41,7 @@ class CountdownWorker @AssistedInject constructor(
 
             WorkManager.getInstance(context).enqueueUniquePeriodicWork(
                 WORK_NAME,
-                ExistingPeriodicWorkPolicy.Keep,
+                ExistingPeriodicWorkPolicy.KEEP,
                 request
             )
         }
