@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WidgetKit</string>
+    <string name="gallery">Gallery</string>
+    <string name="my_widgets">My Widgets</string>
+    <string name="digital_clock">Digital Clock</string>
+    <string name="text_note">Text Note</string>
+    <string name="countdown_timer">Countdown Timer</string>
+    <string name="clock_description">A clean digital clock with format options</string>
+    <string name="note_description">A sticky note for quick reminders</string>
+    <string name="countdown_description">Count down to any date and time</string>
+    <string name="configure">Configure</string>
+    <string name="add_to_home_screen">Add to Home Screen</string>
+    <string name="use_12h_format">12-hour format</string>
+    <string name="use_24h_format">24-hour format</string>
+    <string name="show_seconds">Show seconds</string>
+    <string name="show_date">Show date</string>
+    <string name="note_content">Note content</string>
+    <string name="note_hint">Type your note here…</string>
+    <string name="font_size">Font size</string>
+    <string name="small">Small</string>
+    <string name="medium">Medium</string>
+    <string name="large">Large</string>
+    <string name="target_date">Target date</string>
+    <string name="target_time">Target time</string>
+    <string name="label">Label</string>
+    <string name="label_hint">My event…</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="widget_deleted">Widget deleted</string>
+    <string name="undo">Undo</string>
+    <string name="no_widgets_title">No widgets yet</string>
+    <string name="no_widgets_message">Go to Gallery to add one</string>
+    <string name="expired">Expired</string>
+    <string name="character_count">%1$d / %2$d</string>
+    <string name="future_date_required">Target must be in the future</string>
+    <string name="content_required">Content is required</string>
+    <string name="label_too_long">Label must be %1$d characters or fewer</string>
+</resources>

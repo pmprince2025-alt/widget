@@ -1,0 +1,1 @@
+-keep class com.widgetkit.data.proto.** { *; }

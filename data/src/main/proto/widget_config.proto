@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package widgetkit;
+
+option java_package = "com.widgetkit.data.proto";
+option java_multiple_files = true;
+
+message WidgetConfigProto {
+  string widget_id = 1;
+  WidgetTypeProto widget_type = 2;
+  int64 created_at = 3;
+  ClockConfigProto clock_config = 4;
+  NoteConfigProto note_config = 5;
+  CountdownConfigProto countdown_config = 6;
+}
+
+enum WidgetTypeProto {
+  CLOCK = 0;
+  NOTE = 1;
+  COUNTDOWN = 2;
+}
+
+message ClockConfigProto {
+  bool use_12_hour = 1;
+  bool show_seconds = 2;
+  bool show_date = 3;
+}
+
+message NoteConfigProto {
+  string content = 1;
+  NoteFontSizeProto font_size = 2;
+}
+
+enum NoteFontSizeProto {
+  SMALL = 0;
+  MEDIUM = 1;
+  LARGE = 2;
+}
+
+message CountdownConfigProto {
+  int64 target_epoch_ms = 1;
+  string label = 2;
+}
