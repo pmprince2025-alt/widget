@@ -16,14 +16,15 @@ import com.widgetkit.domain.model.WidgetType
 object WidgetMapper {
 
     fun WidgetConfig.toProtoWidget(): WidgetConfigProto {
+        val cfg = this
         return WidgetConfigProto.newBuilder()
-            .setWidgetId(widgetId)
-            .setWidgetType(widgetType.toProtoType())
-            .setCreatedAt(createdAt)
+            .setWidgetId(cfg.widgetId)
+            .setWidgetType(cfg.widgetType.toProtoType())
+            .setCreatedAt(cfg.createdAt)
             .apply {
-                clockConfig?.let { setClockConfig(clockToProto(it)) }
-                noteConfig?.let { setNoteConfig(noteToProto(it)) }
-                countdownConfig?.let { setCountdownConfig(countdownToProto(it)) }
+                cfg.clockConfig?.let { setClockConfig(clockToProto(it)) }
+                cfg.noteConfig?.let { setNoteConfig(noteToProto(it)) }
+                cfg.countdownConfig?.let { setCountdownConfig(countdownToProto(it)) }
             }
             .build()
     }
