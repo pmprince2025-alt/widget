@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":widget:note"))
     implementation(project(":widget:countdown"))
 
+    implementation(platform(libs.compose.bom))
     implementation(libs.activity.compose)
     implementation(libs.navigation.compose)
     implementation(libs.compose.material3)
