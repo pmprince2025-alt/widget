@@ -38,8 +38,8 @@ jobs:
             echo "${{ secrets.SIGNING_KEYSTORE }}" | base64 -d > "$HOME/.android/signing.keystore"
           else
             keytool -genkey -v -keystore "$HOME/.android/signing.keystore" \
-              -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
-              -storepass android -keypass android \
+              -alias widgetkit -keyalg RSA -keysize 2048 -validity 10000 \
+              -storepass widgetkit22 -keypass widgetkit22 \
               -dname "CN=WidgetKit,O=WidgetKit,C=US"
             echo "KEYSTORE_BASE64=$(base64 -w0 "$HOME/.android/signing.keystore")" >> "$GITHUB_ENV"
           fi
@@ -52,10 +52,10 @@ jobs:
           echo "=================================================="
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug -PkeystorePath="$HOME/.android/signing.keystore" -PkeystorePassword=android -PkeyAlias=androiddebugkey -PkeyPassword=android
+        run: ./gradlew assembleDebug -PkeystorePath="$HOME/.android/signing.keystore" -PkeystorePassword=widgetkit22 -PkeyAlias=widgetkit -PkeyPassword=widgetkit22
 
       - name: Build release APK
-        run: ./gradlew assembleRelease -PkeystorePath="$HOME/.android/signing.keystore" -PkeystorePassword=android -PkeyAlias=androiddebugkey -PkeyPassword=android
+        run: ./gradlew assembleRelease -PkeystorePath="$HOME/.android/signing.keystore" -PkeystorePassword=widgetkit22 -PkeyAlias=widgetkit -PkeyPassword=widgetkit22
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
